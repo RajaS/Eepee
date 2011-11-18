@@ -1,0 +1,3 @@
+#!/bin/sh
+# Launch eepee
+exec python /usr/local/share/eepee/eepee.py

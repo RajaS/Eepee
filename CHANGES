@@ -1,0 +1,155 @@
+EPviewer
+(c)Raja S
+rajajs {at} gmail {dot} com
+
+
+version
+-------------
+* Takes filename as argument - when calling from commandline or using 'open with'
+* Added option to reuse last used directory for opening new files
+* Fixed numbering of jpgs when exporting powerpoint presentations in windows
+* Possible now to rename files by clicking on name in playlist pane
+* Popup menu with access to some functions on right click (when caliper not selected)
+* Use native icons on toolbar for file open and save
+* Drag and drop for reordering in playlist editor
+
+version 0.9.5
+--------------
+* Can import powerpoint presentations !
+* Added toolbar button and menu item for removing all calipers
+* Fixed flickering on resizing on windows
+* Notes and changes are saved now on closing frame using the close button
+* Fixed bug in windows compiled exe which resulted in inability to open tif files
+* Sane default directory when creating playlist
+* Fullscreen mode with Ctrl-F
+* Cursor changes appropriately when repositioning caliper
+
+version 0.9.2
+--------------
+* Added preferences dialog to edit preferences
+
+version 0.9.1
+--------------
+October 15, 2008
+* Bug fix - crop frame can extend outside image borders now
+* Bug fix - calipers are removed when calibration is cancelled after second attempt
+* Left click on canvas starts new caliper
+* Right click cancels caliper at any point when caliper is active
+* Playlists can be created, edited, saved and loaded
+
+version 0.9
+-------------
+ October 01, 2008
+ * Notes and playlist reside in tabs in a split window
+ * Image can be resized without losing caliper and calib coordinates
+ * Multiple active calipers at any time
+ * Loaded images can be cropped and rotated with transformation saved
+ * Can save image in multiple  formats now
+
+
+version 0.8.0
+-------------
+Aug 09, 2008
+  * Removed the ability to create slides
+  * Notes, calibration etx are stored as a pickled dictionary
+  * Added ability to sketch (doodle) on the image
+  * No tabs in the frame. Note opens as separate window
+  * Keyboard shortcuts functional
+
+version 0.7.0
+------------
+Dec 25, 2007
+
+  Error redirection to a log file
+  No note file if there is no text, calibration or zoomframe to store
+  Unlimited number of slides
+  Only show slides if required
+  Fixed error in importing tiff plugin in the compiled windows binary
+  Disabled zoomframe for now - need to implement it better
+  changed slide from richtextctrl to htmlwindow
+  added keyboard shortcuts
+  Fixed problems related to changing page or image while caliper still active
+
+version 0.6.5
+-------------
+Dec 24, 2007
+
+  Calibrate status is updated immediately
+  Added two slides as default
+  Added zoomframe
+
+version 0.6
+--------------
+Nov 03, 2007
+
+  New Statusbar with 4 fields
+  New icons for exit and about
+  About fixed
+
+version 0.5.5
+------------
+Nov 01, 2007
+
+  Will now accept lower case extensions
+  When saving images, the dc is copied out before the savedialog, 
+        so no more whiteouts in windows
+  Note now saves calibration and a zoomframe (to be implemented)
+  File selection is with filedialog instead of imagebrowser
+  GIF is also an accepted format.
+  Once calibratred, no need to calibrate again
+
+version 0.5.0
+-------------
+Oct 26, 2007
+  Cleaned up the wx code updating terminology for toolbar
+  Added SetToolBitmapSize for toolbar so that it looks OK in Windows
+  Embedded icons inside code using img2py
+
+version 0.45
+-----------
+Oct 23, 2007
+  Removed menubar completely to get more space
+  Can now save images !
+
+version 0.4
+----------
+Oct 10,2007
+  Added splitter with side panel showing playlist
+  Caliper can be overlapped on old one without erasing it
+  Icons are enabled only when they need to be
+  Image resize now uses an antialias filter making a downsampled image smoother
+  Fixed problem with wrong cal scale after second caliper
+
+version 0.3
+-----------
+Oct 06, 2007
+  Added caliper stamp and remove
+  Notes - editable and saved
+  Added tabbed notebook style with notes tab
+  Added default playlist with navigation to next and prev pictures
+  Drew icons
+
+Known bugs:
+  Changing image while notebook is open results in wrong size of image
+  A 'stamped' caliper can disappear if another caliper is drawn over it
+  Clicking on 'remove caliper' with an active caliper puts another caliper
+  Calipers are enabled even before image is chosen - (have to disable)
+  Crashes when calibrate is cancelled
+  Second calibrate messes up cal
+
+version 0.2
+------------
+September 10, 2007
+  Corrected image resize
+  Corrected MeasureDistance
+
+version 0.15
+-------------
+September 08, 2007
+  No new functionality.
+  Made the Caliper class and moved all functions there.
+
+Version 0.1
+-----------
+August 29, 2007
+  Functional single caliper that can be calibrated, moved and resized.

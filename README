@@ -1,0 +1,22 @@
+Eepee
+=====
+
+An application for presenting and analyzing ECGs and EP tracings
+
+http://code.google.com/p/eepee/
+
+License: GNU GPL
+
+Requirements
+-------------
+Python >= 2.4
+wxPython >= 2.6
+Python Imaging Library (PIL)
+
+How to install
+--------------
+To test it without installing -
+    python eepee.py
+Install it - 
+    python install.py install (as root or with sudo)
+
