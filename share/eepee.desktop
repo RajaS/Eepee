@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Eepee
+GenericName=Eepee
+Comment=Viewer for ECGs and EP tracings
+Exec=eepee
+Icon=eepee
+Terminal=false
+Type=Application
+Categories=Education;Science;
