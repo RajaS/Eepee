@@ -163,12 +163,11 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.ToggleFullScreen, id=ID_FULLSCREEN)
         self.Bind(wx.EVT_CLOSE, self.OnQuit)
 
-        self.listbox.Bind(wx.EVT_LEFT_DCLICK, self.JumptoImage)
+        #self.listbox.Bind(wx.EVT_LEFT_DCLICK, self.JumptoImage)
         #self.listbox.Bind(wx.EVT_LIST_BEGIN_LABEL_EDIT, self.OnBeginEdit)
+        self.listbox.Bind(wx.EVT_LIST_ITEM_ACTIVATED, self.JumptoImage)
         self.listbox.Bind(wx.EVT_LIST_END_LABEL_EDIT, self.OnEndEdit)
 
-        #self.listbox.Bind(wx.EVT_LISTBOX_DCLICK, self.JumptoImage, id = wx.ID_ANY)
-        #wx.EVT_LISTBOX_DCLICK(self.listbox, -1, self.JumptoImage)
         self.last_dir = '' # last dir used for file open
 
         # open file if specified as argument
