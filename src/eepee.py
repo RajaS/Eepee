@@ -474,19 +474,20 @@ class MyFrame(wx.Frame):
         self.playlist.nowshowing += 1
         if self.playlist.nowshowing == len(self.playlist.playlist):
             self.playlist.nowshowing = 0
-        self.listbox.SetSelection(self.playlist.nowshowing)
-            
+        self.listbox.SetItemState(self.playlist.nowshowing,
+                                  wx.LIST_STATE_SELECTED, wx.LIST_STATE_SELECTED)
+
         self.displayimage.LoadAndDisplayImage(self.playlist.playlist[
                                                 self.playlist.nowshowing])
-        #self.BlitSelectedImage()
         
     def SelectPrevImage(self,event):
         self.CleanUp()
         self.playlist.nowshowing -= 1
         if self.playlist.nowshowing == -1:
             self.playlist.nowshowing = len(self.playlist.playlist)-1
-        self.listbox.SetSelection(self.playlist.nowshowing)
-            
+        self.listbox.SetItemState(self.playlist.nowshowing,
+                                  wx.LIST_STATE_SELECTED, wx.LIST_STATE_SELECTED)
+
         self.displayimage.LoadAndDisplayImage(self.playlist.playlist[
                                                 self.playlist.nowshowing])
        
