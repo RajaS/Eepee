@@ -9,7 +9,7 @@ import shutil
 import glob
 import commands
 # 
-rootdir = '/data/docs/programming/python/epviewer/svnlocal/trunk'
+rootdir = '/data/Dropbox/programming/eepee'
 sourcedir = os.path.join(rootdir, 'src')
 sharedir = os.path.join(rootdir, 'share')
 docsdir = os.path.join(rootdir, 'docs')
