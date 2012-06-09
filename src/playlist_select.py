@@ -43,10 +43,11 @@ class DragList(wx.ListCtrl):
         res = dropSource.DoDragDrop(flags=wx.Drag_DefaultMove)
 
         # If move, we want to remove the item from this list.
-        if res == wx.DragMove:
-            # Find correct position.
-            pos = self.FindItem(idx, text)
-            self.DeleteItem(pos)
+        # if res == wx.DragMove:
+        #     # Find correct position.
+        #     print 'deleting'
+        #     pos = self.FindItem(idx, text)
+        #     self.DeleteItem(pos)
 
     def _insert(self, x, y, text):
         """ Insert text at given x, y coordinates --- used with drag-and-drop. """
@@ -109,10 +110,10 @@ class PlayListSelector(wx.Dialog):
                                     wx.TAB_TRAVERSAL)
         self.listpanel = wx.Panel(self, -1, style=wx.SUNKEN_BORDER)
         
-        # self.playlistctrl = wx.ListCtrl(self.listpanel, -1, style=wx.LC_REPORT|
-        #                             wx.LC_SINGLE_SEL | wx.SUNKEN_BORDER)
-        self.playlistctrl = DragList(self.listpanel, -1,  style=wx.LC_REPORT|
-                                     wx.LC_SINGLE_SEL | wx.SUNKEN_BORDER)
+        self.playlistctrl = wx.ListCtrl(self.listpanel, -1, style=wx.LC_REPORT|
+                                        wx.LC_SINGLE_SEL | wx.SUNKEN_BORDER)
+        # self.playlistctrl = DragList(self.listpanel, -1,  style=wx.LC_REPORT|
+        #                              wx.LC_SINGLE_SEL | wx.SUNKEN_BORDER)
         self.playlistctrl.InsertColumn(0, "Path", width=280)
         self.playlistctrl.InsertColumn(1, "Name", width=100)
         
