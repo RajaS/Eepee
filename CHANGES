@@ -11,7 +11,7 @@ version 0.9.9
 * Possible now to rename files by clicking on name in playlist pane
 * Popup menu with access to some functions on right click (when caliper not selected)
 * Use native icons on toolbar for file open and save
-* Drag and drop for reordering in playlist editor - buggy !
+* Drag and drop for reordering in playlist editor - buggy ! - disabled for this version
 
 version 0.9.5
 --------------
