@@ -33,6 +33,7 @@ class Config():
                    'reuse_dir': 'False',  # open reuses last used dir
                    'caliper_width' : '1',
                    'caliper_color' : 'black',
+                   'caliper_shape' : 'full',
                    'active_caliper_color' : 'red',
                    'caliper_measurement' : 'Time',
                    'doodle_width' : '1',
@@ -86,6 +87,10 @@ class PreferenceDialog(wx.Dialog):
         self.ccolorcombo = wx.ComboBox(self.mainpanel, -1,
                                        choices=["black", "white", "red", "blue"],
                                        style=wx.CB_DROPDOWN|wx.CB_DROPDOWN)
+        self.cshapetext = wx.StaticText(self.mainpanel, -1, "Caliper shape")
+        self.cshapecombo = wx.ComboBox(self.mainpanel, -1,
+                                       choices=["Full", "Truncated"],
+                                       style=wx.CB_DROPDOWN|wx.CB_DROPDOWN)
         self.accolortext = wx.StaticText(self.mainpanel, -1,
                                          "Active caliper color")
         self.accolorcombo = wx.ComboBox(self.mainpanel, -1,
@@ -118,6 +123,7 @@ class PreferenceDialog(wx.Dialog):
         self.reusedircombo.SetSelection(1)
         self.cwidthcombo.SetSelection(0)
         self.ccolorcombo.SetSelection(-1)
+        self.cshapecombo.SetSelection(-1)
         self.accolorcombo.SetSelection(-1)
         self.measurementcombo.SetSelection(-1)
         self.dwidthcombo.SetSelection(-1)
@@ -133,6 +139,7 @@ class PreferenceDialog(wx.Dialog):
         measuresizer = wx.BoxSizer(wx.HORIZONTAL)
         accolorsizer = wx.BoxSizer(wx.HORIZONTAL)
         ccolorsizer = wx.BoxSizer(wx.HORIZONTAL)
+        cshapesizer = wx.BoxSizer(wx.HORIZONTAL)
         cwidthsizer = wx.BoxSizer(wx.HORIZONTAL)
         reusedirsizer = wx.BoxSizer(wx.HORIZONTAL)
         dirsizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -149,6 +156,9 @@ class PreferenceDialog(wx.Dialog):
         ccolorsizer.Add(self.ccolortext, 4, wx.LEFT|wx.TOP|wx.ALIGN_CENTER_VERTICAL, 2)
         ccolorsizer.Add(self.ccolorcombo, 6, wx.LEFT|wx.RIGHT|wx.TOP|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 2)
         mainsizer.Add(ccolorsizer, 1, wx.EXPAND, 0)
+        cshapesizer.Add(self.cshapetext, 4, wx.LEFT|wx.TOP|wx.ALIGN_CENTER_VERTICAL,2)
+        cshapesizer.Add(self.cshapecombo, 6, wx.LEFT|wx.RIGHT|wx.TOP|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 2)
+        mainsizer.Add(cshapesizer, 1, wx.EXPAND, 0)
         accolorsizer.Add(self.accolortext, 4, wx.LEFT|wx.TOP|wx.ALIGN_CENTER_VERTICAL, 2)
         accolorsizer.Add(self.accolorcombo, 6, wx.LEFT|wx.RIGHT|wx.TOP|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 2)
         mainsizer.Add(accolorsizer, 1, wx.EXPAND, 0)
@@ -185,6 +195,8 @@ class PreferenceDialog(wx.Dialog):
                             self.options.get('caliper_width', '1'))
         self.ccolorcombo.SetStringSelection(
                             self.options.get('caliper_color', 'black'))
+        self.cshapecombo.SetStringSelection(
+                            self.options.get('caliper_shape', 'full'))
         self.accolorcombo.SetStringSelection(
                             self.options.get('active_caliper_color', 'red'))
         self.measurementcombo.SetStringSelection(
@@ -200,6 +212,7 @@ class PreferenceDialog(wx.Dialog):
         self.options['reuse_dir'] = self.reusedircombo.GetValue()
         self.options['caliper_width'] = self.cwidthcombo.GetValue()
         self.options['caliper_color'] = self.ccolorcombo.GetValue()
+        self.options['caliper_shape'] = self.cshapecombo.GetValue().lower()
         self.options['active_caliper_color'] = self.accolorcombo.GetValue()
         self.options['caliper_measurement'] = self.measurementcombo.GetValue()
         self.options['doodle_width'] = self.dwidthcombo.GetValue()

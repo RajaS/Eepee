@@ -583,6 +583,7 @@ class Canvas(wx.Window):
         self.reuse_lastdir = self.config.options.get('reuse_dir')
         self.caliper_width = int(self.config.options.get('caliper_width'))
         self.caliper_color = self.config.options.get('caliper_color')
+        self.caliper_shape = self.config.options.get('caliper_shape')
         self.active_caliper_color = self.config.options.get('active_caliper_color')
         self.doodle_width = int(self.config.options.get('doodle_width'))
         self.doodle_color = self.config.options.get('doodle_color')
@@ -820,7 +821,7 @@ class Canvas(wx.Window):
     
     def NewCaliper(self, event):
         """Start a new caliper"""
-        self.caliperlist.append(Caliper(self))
+        self.caliperlist.append(Caliper(self, self.caliper_shape))
         self.activecaliperindex = len(self.caliperlist)-1
         self.activetool = "caliper"
 
@@ -1160,8 +1161,14 @@ class DisplayImage():
 #------------------------------------------------------------------------------
 class Caliper():
     """Caliper is a tool with two vertical lines connected by a bridge"""
-    def __init__(self, canvas):
+    def __init__(self, canvas, shape='full'):
+        """
+        Full caliper is as shown below
+        Truncated caliper (shape = 'truncated') has short legs
+        """
         self.canvas = canvas
+        self.shape = shape
+
         # coordinates are in 'world coordinates'
         #          x1,y1    x2y1
         #           |       |
@@ -1173,7 +1180,7 @@ class Caliper():
         self.x1, self.x2 = 0, 0
         self.y1, self.y2 = 0, 0
         self.y3 = self.canvas.maxheight
-        
+
         self.pen = wx.Pen(self.canvas.caliper_color, self.canvas.caliper_width, wx.SOLID)
         self.hittable_pen = wx.Pen(self.canvas.active_caliper_color,
                                    self.canvas.caliper_width, wx.SOLID)
@@ -1200,6 +1207,11 @@ class Caliper():
         y1 = self.canvas.WorldToPixels(self.y1, "yaxis")
         y2 = self.canvas.WorldToPixels(self.y2, "yaxis")
         y3 = self.canvas.WorldToPixels(self.y3, "yaxis")
+
+        # truncated caliper
+        if self.shape == 'truncated':
+            y1 = max(y1, y2-(y3*0.05))
+            y3 = min(y3, y2+(y3*0.05))
         
         # draw the lines
         dc.DrawLine(x1, y1, x1, y3) # left vertical
@@ -1246,6 +1258,7 @@ class Caliper():
         # beginning - this is first caliper being positioned
         elif event.Moving() and self.state == 1:
             self.x1 = self.x2 = mousex
+            self.y2 = mousey
             self.canvas._FGchanged = True
         
         # fix the first caliper
@@ -1320,6 +1333,13 @@ class Caliper():
         y1 = self.canvas.WorldToPixels(self.y1, "yaxis")
         y2 = self.canvas.WorldToPixels(self.y2, "yaxis")
         y3 = self.canvas.WorldToPixels(self.y3, "yaxis")
+
+        # truncated caliper
+        if self.shape == 'truncated':
+            print 'yes'
+            y1 = max(y1, y2-(y3*0.05))
+            y3 = min(y3, y2+(y3*0.05))
+
         
         if type == 1:
             dc.DrawLine(x1, y1, x1, y3) # left vertical
