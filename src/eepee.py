@@ -55,7 +55,7 @@ ID_PREVIOUS    = wx.NewId()    ;   ID_NEXT       = wx.NewId()
 ID_CLEAR       = wx.NewId()    ;   ID_ABOUT      = wx.NewId()
 ID_NEWPL       = wx.NewId()    ;   ID_EDITPL     = wx.NewId()
 ID_KEYS        = wx.NewId()    ;   ID_PREF       = wx.NewId()
-ID_CALIPERREMOVE = wx.NewId()  ;   ID_IMPORT     = wx.NewId()
+ID_CALIPERREMOVE = wx.NewId()  ;   # ID_IMPORT     = wx.NewId()
 ID_FULLSCREEN = wx.NewId()
 
 
@@ -79,10 +79,12 @@ Right click - Removes caliper\n
 """
 
 #last png is for default save ext
-accepted_formats = ['.png', '.tiff', '.jpg', '.bmp', '.png'] 
+accepted_formats = ['.png', '.tiff', '.jpg', '.bmp', '.png']
 accepted_wildcards = 'PNG|*.png|TIF|*.tif;*.tiff|' +\
                      'JPG|*.jpg;*.jpeg|BMP|*.bmp|' +\
+                     'Presentations|*.ppt;*.pptx;*.odp|' +\
                      'All files|*.*'
+
 image_handlers = [wx.BITMAP_TYPE_PNG, wx.BITMAP_TYPE_TIF,
                   wx.BITMAP_TYPE_JPEG, wx.BITMAP_TYPE_BMP, wx.BITMAP_TYPE_PNG]
                   
@@ -159,7 +161,7 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.ListKeys, id=ID_KEYS)
         self.Bind(wx.EVT_MENU, self.editPref, id=ID_PREF)
         self.Bind(wx.EVT_MENU, self.canvas.RemoveAllCalipers, id=ID_CALIPERREMOVE)
-        self.Bind(wx.EVT_MENU, self.ImportPresentation, id=ID_IMPORT)
+        # self.Bind(wx.EVT_MENU, self.ImportPresentation, id=ID_IMPORT)
         self.Bind(wx.EVT_MENU, self.ToggleFullScreen, id=ID_FULLSCREEN)
         self.Bind(wx.EVT_CLOSE, self.OnQuit)
 
@@ -180,8 +182,8 @@ class MyFrame(wx.Frame):
 
         file_menu = wx.Menu()
         file_menu.Append(ID_OPEN, "&Open\tCtrl-O","Open file")
-        file_menu.Append(ID_IMPORT, "&Import presentation\tCtrl-P",
-                         "Experimental")
+        # file_menu.Append(ID_IMPORT, "&Import presentation\tCtrl-P",
+        #                  "Experimental")
         file_menu.Append(ID_SAVE, "&Save\tCtrl-S","Save Image")
         file_menu.Append(ID_QUIT, "&Exit\tCtrl-Q","Exit")
    
@@ -361,19 +363,22 @@ class MyFrame(wx.Frame):
         else:
             dir2use = self.canvas.default_dir
 
-        print self.last_dir, dir2use
-
-            
         dlg = wx.FileDialog(self, defaultDir = dir2use,
                             style=wx.OPEN, wildcard=filter)
-        dlg.SetFilterIndex(5) #set 'all files' as default
+        dlg.SetFilterIndex(6) #set 'all files' as default
         if dlg.ShowModal() == wx.ID_OK:
             filepath = dlg.GetPath()
             self.last_dir = os.path.dirname(filepath)
         else:
             return
-        
-        self.load_new_file(filepath)
+
+        # automagically import presentations
+        presentations = ['.ppt', '.pptx', '.odp']
+        extension = os.path.splitext(filepath)[1]
+        if extension in presentations:
+            self.import_presentation(filepath)
+        else:
+            self.load_new_file(filepath)
 
 
     def load_new_file(self, filepath):
@@ -384,24 +389,16 @@ class MyFrame(wx.Frame):
         self.displayimage.LoadAndDisplayImage(filepath)
 
 
-    def ImportPresentation(self, event):
+    def import_presentation(self, path_to_presentation):
         """import a presentation as a series of images
         that can be used in eepee"""
-        filter = 'Presentation|*.ppt;*.pptx;*.odp|All files|*.*'
-        dlg = wx.FileDialog(self, "Choose the presentation file",
-                            style=wx.OPEN, wildcard=filter)
-        if dlg.ShowModal() == wx.ID_OK:
-            path_to_presentation = dlg.GetPath()
-        else:
-            return
-
-        disposabledir = tempfile.mkdtemp()
-        dlg = wx.DirDialog(self, "Choose folder to import to",
-                           style=wx.OPEN, defaultPath=disposabledir)
-        if dlg.ShowModal() == wx.ID_OK:
-            target_folder = dlg.GetPath()
-        else:
-            return
+        target_folder = tempfile.mkdtemp()
+        # dlg = wx.DirDialog(self, "Choose folder to import to",
+        #                    style=wx.OPEN, defaultPath=disposabledir)
+        # if dlg.ShowModal() == wx.ID_OK:
+        #     target_folder = dlg.GetPath()
+        # else:
+        #     return
 
         #osname = os.name
         #if osname == 'nt':
@@ -411,7 +408,7 @@ class MyFrame(wx.Frame):
         elif self.platform == 'linux':
             converter = Converter_OO(path_to_presentation, target_folder)
         
-        self.DisplayMessage("Importing ...")
+        self.DisplayMessage("Importing presentation, please wait ...")
         try:
             converter.convert()
             self.DisplayMessage("")
