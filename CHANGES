@@ -13,6 +13,7 @@ version 0.9.9
 * Use native icons on toolbar for file open and save
 * Drag and drop for reordering in playlist editor - buggy ! - disabled for this version
 * Added truncated cursor which can be selected in preferences instead of full cursor
+* No separate import menu for import presentations! Now powerpoint or odp presentations can be directly opened.
 
 version 0.9.5
 --------------

@@ -2,12 +2,43 @@ import glob
 import shutil
 import commands
 import os
+import tempfile
 
 try:
     import comtypes.client
 except:
     pass
 
+
+
+def pdf2jpg(infile, outfolder=None):
+    """
+    Use ghostscript to convert a pdf to
+    individual jpg images,
+    one per page
+    these are placed in a temp dir
+    """
+    if not outfolder:
+        outfolder = tempfile.mkdtemp()
+    outfile = os.path.join(outfolder, "%03d.jpg")
+    
+    cmd = ''.join(['gs ',
+                   '-dBATCH ',
+                   '-dNOPAUSE ',
+                   '-dSAFER ',
+                   '-r200 ',
+                   '-sDEVICE=jpeg ',
+                   '-sOUTPUTFILE=',
+                   outfile,
+                   " '", infile, "'"])
+
+    st, output = commands.getstatusoutput(cmd)
+
+    if st != 0:
+        return None
+    
+    return outfolder
+    
 
 class ConverterError(Exception):
     """all exceptions related to the conversion """
@@ -88,21 +119,28 @@ class Converter_OO(Converter):
         pdf_presentation = os.path.splitext(tmp_presentation)[0] + '.pdf'
         if not os.path.exists(pdf_presentation):
             raise ConverterError("pdf conversion failed")
-        # use ghostscript to convert pdf to images
-        outfile = os.path.join(self.target_folder, "%03d.jpg")
-        cmd = "gs -dBATCH -dNOPAUSE -r150 -sDEVICE=jpeg " +\
-              "-sOUTPUTFILE=" + outfile + " '" +  pdf_presentation + "'"
-        st, output = commands.getstatusoutput(cmd)
+        # # use ghostscript to convert pdf to images
+        # outfile = os.path.join(self.target_folder, "%03d.jpg")
+        # cmd = "gs -dBATCH -dNOPAUSE -r150 -sDEVICE=jpeg " +\
+        #       "-sOUTPUTFILE=" + outfile + " '" +  pdf_presentation + "'"
+        # st, output = commands.getstatusoutput(cmd)
+
+        ret = pdf2jpg(pdf_presentation, self.target_folder)
+        if ret == None:
+            raise ConverterError("pdf could not be converted to jpg")
+
         # delete presentation
         os.remove(tmp_presentation)
         os.remove(pdf_presentation)
 
 
 def test():
-    testfolder = '/data/tmp/test'
-    converter = Converter_MS('dummy', 'dummy')
-    converter.renumber(testfolder)
-
+    # testfolder = '/data/tmp/test'
+    # converter = Converter_MS('dummy', 'dummy')
+    # converter.renumber(testfolder)
+    infile = '/data/tmp/test.pdf'
+    pdf2jpg(infile)
+                  
 
 if __name__ == '__main__':
     test()
