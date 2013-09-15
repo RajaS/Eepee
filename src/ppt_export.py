@@ -64,6 +64,7 @@ class Converter_MS(Converter):
     """converter using MS office"""
     def __init__(self, path_to_presentation, target_folder):
         Converter.__init__(self, path_to_presentation, target_folder)
+        print 'using MS converter'
         
     def convert(self):
         """use comtypes to communicate with MSoffice"""
@@ -84,12 +85,13 @@ class Converter_MS(Converter):
 
     def renumber(self, folder):
         """Renumber the jpg files in the folder
-        so that the numbered files are sorted correctly
+        so that the numbered files are sorted correctly.
+        Default export files are named Slide1.jpg and so on
         """
         infiles = glob.glob(os.path.join(folder, '*.jpg'))
-        print 'files are', infiles
         for filename in infiles:
-            number_prefix = os.path.splitext(os.path.basename(filename))[0]
+            number_prefix = os.path.splitext(os.path.basename(filename)
+                                             )[0].lstrip('Slide')
             try:
                 newfilename = os.path.join(os.path.dirname(filename),
                                        '%.4d.jpg' %(int(number_prefix)))
