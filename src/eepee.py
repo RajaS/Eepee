@@ -1057,7 +1057,7 @@ class DisplayImage():
         
         # Looks like the extension is added automatically on windows
         #if os.name == 'posix':
-        if self.platform == 'windows':
+        if self.frame.platform == 'windows':
             savefilename += accepted_formats[filter_index]
         
         try:
