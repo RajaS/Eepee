@@ -96,6 +96,13 @@ class Bot():
         
         print "copied all the files...\n"
 
+
+    def make_exec(self):
+        """Set mode bits on executable file
+        """
+        os.system('chmod +x %s' %(os.path.join(self.workingdir, 'eepee')))
+        
+
     def runchecks(self):
         """all needed checks"""
         # are there other source files
@@ -133,6 +140,7 @@ class Bot():
         """build the archive"""
         self.makebuilddir()
         self.copyfiles()
+        self.make_exec()
         self.runchecks()
         self.createarchive()
 
