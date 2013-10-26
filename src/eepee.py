@@ -1173,11 +1173,14 @@ class Caliper():
         #           |       |
         #         x1,y3     x2,y3
         #
-        # default coordinates
-        self.x1, self.x2 = 0, 0
-        self.y1, self.y2 = 0, 0
-        self.y3 = self.canvas.maxheight
-
+        # Initialise position to mouse position
+        pos = self.canvas.ScreenToClient(wx.GetMousePosition())
+        mousex, mousey = (self.canvas.PixelsToWorld(pos.x, 'xaxis'),
+                          self.canvas.PixelsToWorld(pos.y, 'yaxis'))        
+        self.x1 = self.x2 = mousex
+        self.y2 = mousey
+        self.y1, self.y3 = 0, canvas.maxheight
+        
         self.pen = wx.Pen(self.canvas.caliper_color, self.canvas.caliper_width, wx.SOLID)
         self.hittable_pen = wx.Pen(self.canvas.active_caliper_color,
                                    self.canvas.caliper_width, wx.SOLID)
@@ -1192,6 +1195,9 @@ class Caliper():
         self.was_hittable = False # true if it becomes hittable
         # distance between legs
         self.measurement = 0
+
+        # force caliper draw as soon as it is initialised
+        self.canvas._FGchanged = True
         
     def draw(self,dc):
         """draw the caliper on the canvas"""
@@ -1333,10 +1339,8 @@ class Caliper():
 
         # truncated caliper
         if self.shape == 'truncated':
-            print 'yes'
             y1 = max(y1, y2-(y3*0.05))
             y3 = min(y3, y2+(y3*0.05))
-
         
         if type == 1:
             dc.DrawLine(x1, y1, x1, y3) # left vertical
