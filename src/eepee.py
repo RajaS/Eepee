@@ -10,7 +10,6 @@ try:
 except ImportError:
     import pickle
 
-import Image
 import wx
 from wx.lib.mixins.listctrl import ListCtrlAutoWidthMixin
 import tempfile
@@ -21,14 +20,28 @@ from playlist_select import PlayListSelector
 from config_manager import PreferenceDialog, Config
 from ppt_export import Converter_MS, Converter_OO, ConverterError
 from fullscreen_help_dialog import help_dialog
+
 ## Import Image plugins separately and then convince Image that is
 ## fully initialized - needed when compiling for windows, otherwise
 ## I am not able to open tiff files with the windows binaries
-import PngImagePlugin
-import BmpImagePlugin
-import TiffImagePlugin
-import GifImagePlugin
-import JpegImagePlugin
+
+## Pillow fork changes imports, so check for those
+try: # new style imports
+    from PIL import Image
+    from PIL import PngImagePlugin
+    from PIL import BmpImagePlugin
+    from PIL import TiffImagePlugin
+    from PIL import GifImagePlugin
+    from PIL import JpegImagePlugin
+
+except ImportError:
+    import Image
+    import PngImagePlugin
+    import BmpImagePlugin
+    import TiffImagePlugin
+    import GifImagePlugin
+    import JpegImagePlugin
+    
 Image._initialized = 2
 
 ## ------------------------------------------
