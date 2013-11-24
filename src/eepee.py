@@ -47,7 +47,7 @@ Image._initialized = 2
 ## ------------------------------------------
 _title          = "EP viewer"
 _about          = """
-Eepee v 0.9.9
+Eepee v 1.0
 An application to view, analyze and present EP tracings\n
 Author: Raja S. 
 rajajs@gmail.com
